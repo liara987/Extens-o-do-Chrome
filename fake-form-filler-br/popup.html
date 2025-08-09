@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Form Filler BR</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+
+    #fill {
+      background-color: #2563eb;
+      /* Azul forte */
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      min-width: 200px;
+    }
+
+    #fill:hover {
+      background-color: #1d4ed8;
+      /* Azul mais escuro */
+      transform: translateY(-1px);
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    #fill:active {
+      background-color: #1e40af;
+      /* Azul ainda mais escuro */
+      transform: translateY(0);
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    #fill:disabled {
+      background-color: #9ca3af;
+      /* Cinza */
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+
+    /* Estilização para a tag <a> */
+    a.credits {
+      display: block;
+      margin-top: 15px;
+      /* Adiciona um espaço acima do link */
+      font-size: 10px;
+      /* Reduz o tamanho da fonte */
+      color: #6c757d;
+      /* Uma cor cinza sutil para não se destacar */
+      text-decoration: none;
+      /* Remove o sublinhado padrão */
+      transition: color 0.2s ease-in-out;
+    }
+
+    a.credits:hover {
+      color: #0056b3;
+      /* Cor azul no hover para indicar que é um link */
+      text-decoration: underline;
+      /* Adiciona o sublinhado ao passar o mouse */
+    }
+  </style>
+</head>
+
+<body>
+  <button id="fill">Preencher Formulário</button>
+
+  <a class="credits" href="https://www.flaticon.com/free-icons/document" title="document icons">Document icons created
+    by Flat-icons-com
+    - Flaticon</a>
+  <script type="module" src="popup.js"></script>
+</body>
+
+</html>
