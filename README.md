@@ -56,7 +56,7 @@
 - Tratamento de erros e logs para facilitar debug.  
 - Normalização e validação de dados antes do preenchimento.  
 - Comentários claros e padronizados.  
-
+    
 ---
 
 ## 🤝 Contribuições
@@ -69,5 +69,4 @@ Faça fork do projeto, crie branches de recurso e envie pull requests.
 
 ## Contato
 
-[Seu nome ou usuário GitHub] — [seuemail@exemplo.com]  
 [GitHub](https://github.com/liara987) | [LinkedIn](https://www.linkedin.com/in/liara-programadora/) | [Youtube](https://www.youtube.com/@LiaraProgramadora)
