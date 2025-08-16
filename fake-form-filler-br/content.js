@@ -1,3 +1,5 @@
+const loremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
+
 const strategies = {
   checkbox: (input, dados) => {
     input.checked = true;
@@ -20,6 +22,9 @@ const strategies = {
         }
       });
   },
+
+  textarea: (input, dados) => (input.value = dados.textarea || loremIpsum),
+  input: (input, dados) => (input.value = dados.input || loremIpsum),
 
   sobrenome: (input, dados) => (input.value = dados.sobrenome),
   primeiro_nome: (input, dados) => (input.value = dados.primeiroNome),
@@ -81,6 +86,12 @@ function getStrategy(input, ref) {
   if (input.type === "email") return strategies.email;
   if (input.type === "tel") return strategies.celular;
 
+  // Fallback for generic text input or textarea
+  if (input.type === "text" || input.tagName.toLowerCase() === "textarea") {
+    console.log("normal text");
+    return strategies.textarea;
+  }
+
   return null;
 }
 
@@ -98,7 +109,6 @@ window.addEventListener("message", (event) => {
       ""
     ).toLowerCase();
     const strategy = getStrategy(input, ref);
-
     if (strategy) {
       strategy(input, dados);
     }

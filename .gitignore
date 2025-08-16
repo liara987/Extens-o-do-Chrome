@@ -1,0 +1,6 @@
+dist
+*.crx
+*.pem
+*.zip
+node_modules
+index.html

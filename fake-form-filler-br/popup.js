@@ -1,4 +1,9 @@
-import { convertDateToISO, separarNome } from "./util.js";
+import {
+  convertDateToISO,
+  loremIpsum,
+  loremParagraph,
+  separarNome,
+} from "./util.js";
 
 document.getElementById("fill").addEventListener("click", handleFillClick);
 
@@ -74,6 +79,8 @@ function formatarDadosPessoa({
     celular,
     email,
     senha,
+    textarea: loremParagraph(),
+    input: loremIpsum(),
   };
 }
 
