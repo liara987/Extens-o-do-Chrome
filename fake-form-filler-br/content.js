@@ -1,95 +1,154 @@
-const loremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
-
 const strategies = {
-  checkbox: (input, dados) => {
-    input.checked = true;
-  },
-
+  sobrenome: (input, dados) => (input.value = dados.sobrenome || "sobrenome"),
+  primeiro_nome: (input, dados) =>
+    (input.value = dados.primeiroNome || "primeiroNome"),
+  nome_completo: (input, dados) =>
+    (input.value = dados.nomeCompleto || "nomeCompleto"),
+  mae: (input, dados) => (input.value = dados.mae || "mae"),
+  pai: (input, dados) => (input.value = dados.pai || "pai"),
+  cpf: (input, dados) => (input.value = dados.cpf || "529.982.247-25"),
+  rg: (input, dados) => (input.value = dados.rg || "18.237.365-4"),
+  nascimento: (input, dados) =>
+    (input.value = dados.nascimento || new Date.toISOString().slice(0, 10)),
+  endereco: (input, dados) => (input.value = dados.endereco || "Rua Exemplo"),
+  numero: (input, dados) => (input.value = dados.numero || "123"),
+  bairro: (input, dados) => (input.value = dados.bairro || "Bairro Exemplo"),
+  cidade: (input, dados) => (input.value = dados.cidade || "Cidade Exemplo"),
+  estado: (input, dados) => (input.value = dados.estado || "SP"),
+  cep: (input, dados) => (input.value = dados.cep || "12345-678"),
+  senha: (input, dados) => (input.value = dados.senha || "123456"),
+  telefone: (input, dados) => (input.value = dados.telefone || "11 91234-5678"),
+  celular: (input, dados) => (input.value = dados.celular || "11 91234-5678"),
+  email: (input, dados) => (input.value = dados.email || "usuario@gmail.com"),
+  idade: (input, dados) => (input.value = dados.idade || 18),
+  signo: (input, dados) => (input.value = dados.signo || "aries"),
+  altura: (input, dados) => (input.value = dados.altura || "1.75"),
+  peso: (input, dados) => (input.value = dados.peso || "70"),
+  tipoSanguineo: (input, dados) => (input.value = dados.tipoSanguineo || "O+"),
+  cor: (input, dados) => (input.value = dados.cor || "preto"),
+  textarea: (input, dados) => (input.value = dados.textarea || "Lorem ipsum"),
+  input: (input, dados) => (input.value = dados.input || "Lorem ipsum"),
+  checkbox: (input) => (input.checked = true),
   radio: (input, dados) => {
     const sexo = (dados.sexo || "").toLowerCase();
-    const masc = ["m", "masc", "masculino"];
-    const fem = ["f", "fem", "feminino"];
 
     document
       .querySelectorAll(`input[type="radio"][name="${input.name}"]`)
       .forEach((radio) => {
         const val = radio.value.toLowerCase();
-        if (
-          (masc.includes(sexo) && masc.includes(val)) ||
-          (fem.includes(sexo) && fem.includes(val))
-        ) {
+
+        if (isGenderMatch(sexo, val)) {
           radio.checked = true;
         }
       });
   },
+  select: (input) => {
+    const options = Array.from(input.options);
+    const index = generateRandomIntFromInterval(options.length - 1, 0);
+    const selectedOption = options[index];
 
-  textarea: (input, dados) => (input.value = dados.textarea || loremIpsum),
-  input: (input, dados) => (input.value = dados.input || loremIpsum),
-
-  sobrenome: (input, dados) => (input.value = dados.sobrenome),
-  primeiro_nome: (input, dados) => (input.value = dados.primeiroNome),
-  nome_completo: (input, dados) => (input.value = dados.nomeCompleto || ""),
-  mae: (input, dados) => (input.value = dados.mae),
-  pai: (input, dados) => (input.value = dados.pai),
-  cpf: (input, dados) => (input.value = dados.cpf),
-  rg: (input, dados) => (input.value = dados.rg),
-  nascimento: (input, dados) => (input.value = dados.nascimento),
-  endereco: (input, dados) => (input.value = dados.endereco),
-  numero: (input, dados) => (input.value = dados.numero),
-  bairro: (input, dados) => (input.value = dados.bairro),
-  cidade: (input, dados) => (input.value = dados.cidade),
-  estado: (input, dados) => (input.value = dados.estado),
-  cep: (input, dados) => (input.value = dados.cep),
-  senha: (input, dados) => (input.value = dados.senha || "123456"),
-  telefone: (input, dados) => (input.value = dados.telefone),
-  celular: (input, dados) => (input.value = dados.celular),
-  email: (input, dados) => (input.value = dados.email),
+    input.value = selectedOption.value;
+  },
+  number: (input) => {
+    input.value = generateRandomIntFromInterval(1000, 1);
+  },
 };
 
-function getStrategy(input, ref) {
-  if (strategies[input.type]) return strategies[input.type];
+function generateRandomIntFromInterval(max, min) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
 
-  if (ref.includes("sobrenome")) return strategies.sobrenome;
-  if (
-    ref.includes("primeiro") ||
-    (ref.includes("nome") && !ref.includes("sobrenome"))
-  )
-    return strategies.primeiro_nome;
-  if (
-    ref.includes("nome") &&
+function isFullNameField(ref) {
+  return (
+    (ref.includes("completo") || ref.includes("full")) &&
     !ref.includes("mae") &&
     !ref.includes("pai") &&
     !ref.includes("primeiro") &&
     !ref.includes("sobrenome")
-  )
-    return strategies.nome_completo;
+  );
+}
 
-  if (ref.includes("mae")) return strategies.mae;
-  if (ref.includes("pai")) return strategies.pai;
+function isFirstNameField(ref) {
+  return (
+    ref.includes("primeiro") ||
+    ((ref.includes("nome") || ref.includes("name")) &&
+      !ref.includes("sobrenome"))
+  );
+}
+
+function isAddressField(ref) {
+  return (
+    ref.includes("endereco") ||
+    ref.includes("logradouro") ||
+    ref.includes("address")
+  );
+}
+
+function isPasswordField(ref) {
+  return ref.includes("senha") || ref.includes("password");
+}
+
+function isStateField(ref) {
+  return ref.includes("estado") || ref.includes("uf") || ref.includes("state");
+}
+
+function isGenderMatch(sexo, val) {
+  const masc = ["m", "masc", "masculino"];
+  const fem = ["f", "fem", "feminino"];
+  return (
+    (masc.includes(sexo) && masc.includes(val)) ||
+    (fem.includes(sexo) && fem.includes(val))
+  );
+}
+
+function isPhoneField(input) {
+  return (
+    input.type === "tel" || input.id.includes("tel") || input.id.includes("mob")
+  );
+}
+
+function getStrategy(input, ref) {
+  if (strategies[input.type]) return strategies[input.type];
+  if (isFullNameField(ref)) return strategies.nome_completo;
+
+  if (ref.includes("sobrenome") || ref.includes("lastname"))
+    return strategies.sobrenome;
+  if (isFirstNameField(ref)) return strategies.primeiro_nome;
+
+  if (ref.includes("mae") || ref.includes("mother")) return strategies.mae;
+  if (ref.includes("pai") || ref.includes("father")) return strategies.pai;
   if (ref.includes("cpf")) return strategies.cpf;
   if (ref.includes("rg")) return strategies.rg;
-  if (ref.includes("nasc")) return strategies.nascimento;
-  if (ref.includes("endereco") || ref.includes("logradouro"))
-    return strategies.endereco;
-  if (ref.includes("numero")) return strategies.numero;
-  if (ref.includes("bairro")) return strategies.bairro;
-  if (ref.includes("cidade")) return strategies.cidade;
-  if (ref.includes("estado") || ref.includes("uf")) return strategies.estado;
+  if (ref.includes("nasc") || ref.includes("birth"))
+    return strategies.nascimento;
+  if (ref.includes("numero") || ref.includes("number"))
+    return strategies.numero;
+  if (ref.includes("bairro") || ref.includes("neighborhood"))
+    return strategies.bairro;
+  if (ref.includes("cidade") || ref.includes("city")) return strategies.cidade;
   if (ref.includes("cep")) return strategies.cep;
-  if (ref.includes("password") || ref.includes("senha"))
-    return strategies.senha;
-  if (ref.includes("telefone")) return strategies.telefone;
-  if (ref.includes("celular")) return strategies.celular;
+  if (ref.includes("tel")) return strategies.telefone;
+  if (ref.includes("celular") || ref.includes("cell"))
+    return strategies.celular;
   if (ref.includes("email")) return strategies.email;
+  if (ref.includes("idade") || ref.includes("age")) return strategies.idade;
+  if (ref.includes("signo") || ref.includes("zodiac")) return strategies.signo;
+  if (ref.includes("altura") || ref.includes("height"))
+    return strategies.altura;
+  if (ref.includes("peso") || ref.includes("weight")) return strategies.peso;
+  if (ref.includes("tipo sanguineo") || ref.includes("blood type"))
+    return strategies.tipoSanguineo;
+  if (ref.includes("cor") || ref.includes("color")) return strategies.cor;
+  if (isAddressField(ref)) return strategies.endereco;
+  if (isStateField(ref)) return strategies.estado;
+  if (isPasswordField(ref)) return strategies.senha;
 
-  // fallback por tipo
-  if (input.type === "email") return strategies.email;
-  if (input.type === "tel") return strategies.celular;
-
-  // Fallback for generic text input or textarea
+  if (isPhoneField(input)) return strategies.celular;
   if (input.type === "text" || input.tagName.toLowerCase() === "textarea") {
-    console.log("normal text");
-    return strategies.textarea;
+    return strategies.input;
+  }
+  if (String(input.tagName).toLowerCase() === "select") {
+    return strategies.select;
   }
 
   return null;
@@ -113,6 +172,4 @@ window.addEventListener("message", (event) => {
       strategy(input, dados);
     }
   });
-
-  console.log("Formulário preenchido com:", dados);
 });
