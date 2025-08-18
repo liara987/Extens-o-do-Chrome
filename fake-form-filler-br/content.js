@@ -107,7 +107,7 @@ function isPhoneField(input) {
   );
 }
 
-function getStrategy(input, ref) {
+function fillByRef(input, ref) {
   if (strategies[input.type]) return strategies[input.type];
   if (isFullNameField(ref)) return strategies.nome_completo;
 
@@ -142,7 +142,9 @@ function getStrategy(input, ref) {
   if (isAddressField(ref)) return strategies.endereco;
   if (isStateField(ref)) return strategies.estado;
   if (isPasswordField(ref)) return strategies.senha;
+}
 
+function fallbackByType(input) {
   if (isPhoneField(input)) return strategies.celular;
   if (input.type === "text" || input.tagName.toLowerCase() === "textarea") {
     return strategies.input;
@@ -150,7 +152,11 @@ function getStrategy(input, ref) {
   if (String(input.tagName).toLowerCase() === "select") {
     return strategies.select;
   }
+}
 
+function getStrategy(input, ref) {
+  fillByRef(input, ref);
+  fallbackByType(input);
   return null;
 }
 
