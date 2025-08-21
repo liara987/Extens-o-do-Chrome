@@ -115,7 +115,7 @@ function fillByRef(input, ref) {
   if (ref.includes("signo") || ref.includes("zodiac")) return strategies.signo;
   if (ref.includes("altura") || ref.includes("height")) return strategies.altura;
   if (ref.includes("peso") || ref.includes("weight")) return strategies.peso;
-  if (ref.includes("tipo sanguineo") || ref.includes("blood type")) return strategies.tipoSanguineo;
+  if (ref.includes("sangu") || ref.includes("blood")) return strategies.tipoSanguineo;
   if (ref.includes("cor") || ref.includes("color")) return strategies.cor;
   if (ref.includes("senha") || ref.includes("password")) return strategies.senha;
   if (isAddressField(ref)) return strategies.endereco;
